@@ -63,9 +63,8 @@ public class MemberController {
         description = "기존 회원의 정보를 삭제합니다."
     )
     @DeleteMapping("{id}")
-    public void deleteMember(@PathVariable String id){
-
-        memberService.delete(id);
+    public ResponseEntity<?> deleteMember(@PathVariable String id){
+      return  memberService.delete(id);
     }
 
 

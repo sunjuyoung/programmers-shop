@@ -15,7 +15,7 @@ public interface MemberService {
 
     ResponseEntity<Member> update(String id, MemberUpdateRequest request);
 
-    String delete(String memberId);
+    ResponseEntity<?> delete(String memberId);
 
 
 }

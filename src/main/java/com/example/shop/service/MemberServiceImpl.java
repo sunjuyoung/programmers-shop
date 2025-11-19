@@ -68,8 +68,8 @@ public class MemberServiceImpl implements  MemberService {
     }
 
     @Override
-    public String delete(String id) {
+    public ResponseEntity<?> delete(String id) {
         memberRepository.deleteById(UUID.fromString(id));
-        return id;
+        return new ResponseEntity<>(HttpStatus.OK.value(), id,0);
     }
 }
