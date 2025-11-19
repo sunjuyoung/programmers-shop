@@ -1,0 +1,25 @@
+spring:
+  application:
+    name: shop
+  datasource:
+    driver-class-name: org.postgresql.Driver
+    url: jdbc:postgresql://localhost:5432/shop?currentSchema=public
+    username: postgres
+    password: rnrdj123
+  jackson:
+    time-zone: Asia/Seoul
+  jpa:
+    hibernate:
+      ddl-auto: validate
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+        format_sql: true
+        jdbc:
+          time_zone: UTC
+    show-sql: true
+
+
+
+api:
+  v1: /api/v1
