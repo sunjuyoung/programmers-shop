@@ -16,5 +16,4 @@ public interface ProductRepository {
 
     void deleteById(UUID productId);
 
-
 }

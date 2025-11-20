@@ -45,9 +45,9 @@ public class ProductController {
         description = "특정 상품의 정보를 조회합니다."
     )
     @GetMapping("{id}")
-    public ResponseEntity<ProductInfo> findById(@PathVariable String id) {
+    public ResponseEntity<ProductInfo> findById(@PathVariable UUID id) {
 
-        return productService.findById(UUID.fromString(id));
+        return productService.findById(id);
     }
 
     @Operation(
@@ -55,9 +55,9 @@ public class ProductController {
         description = "기존 상품의 정보를 수정합니다."
     )
     @PutMapping("{id}")
-    public ResponseEntity<ProductInfo> update(@PathVariable String id, @RequestBody ProductRequest request) {
+    public ResponseEntity<ProductInfo> update(@PathVariable UUID id, @RequestBody ProductRequest request) {
 
-        return productService.update(UUID.fromString(id), request.toCommand());
+        return productService.update(id, request.toCommand());
     }
 
     @Operation(
@@ -65,9 +65,9 @@ public class ProductController {
         description = "기존 상품의 정보를 삭제합니다."
     )
     @DeleteMapping("{id}")
-    public ResponseEntity<?> deleteById(@PathVariable String id) {
+    public ResponseEntity<?> deleteById(@PathVariable UUID id) {
 
-        return productService.deleteById(UUID.fromString(id));
+        return productService.deleteById(id);
     }
 
 }
