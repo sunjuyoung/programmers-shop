@@ -34,6 +34,7 @@ public class MemberController {
         PageRequest page = PageRequest.of(pageable.getPageNumber(),
                 pageable.getPageSize(),
                 Sort.by("id").ascending());
+
         return memberService.getAllMembers(page);
     }
 
@@ -53,6 +54,7 @@ public class MemberController {
     )
     @PutMapping("{id}")
     public ResponseEntity<MemberInfo> updateMember(@PathVariable String id, @RequestBody MemberUpdateRequest request){
+
         return  memberService.update(id, request.toMemberUpdateCommand());
     }
 
@@ -63,6 +65,7 @@ public class MemberController {
     )
     @DeleteMapping("{id}")
     public ResponseEntity<?> deleteMember(@PathVariable String id){
+
       return  memberService.delete(id);
     }
 
