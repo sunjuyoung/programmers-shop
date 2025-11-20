@@ -1,17 +1,16 @@
-package com.example.shop.member;
+package com.example.shop.member.domain;
 
 
+import com.example.shop.member.application.dto.MemberUpdateCommand;
+import com.example.shop.member.presentation.dto.MemberUpdateRequest;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.persistence.*;
-import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 
 import java.time.LocalDateTime;
-import java.time.LocalTime;
-import java.time.OffsetDateTime;
 import java.util.UUID;
 
 @Schema(description = "유저 정보 엔티티")
@@ -61,7 +60,7 @@ public class Member {
     @Column(name = "flag", length = 5)
     private String flag;
 
-    public Member(UUID id,
+    private Member(UUID id,
                   String email,
                   String nickname,
                   String password,
@@ -77,7 +76,7 @@ public class Member {
         this.flag = flag;
     }
 
-    public Member(String id,
+    private Member(String id,
                   String email,
                   String nickname,
                   String password,
@@ -93,17 +92,62 @@ public class Member {
         this.flag = flag;
     }
 
+    //정적 생성자 메서드 (팩토리 메서드)
+    public static Member create(String email,
+                                String nickname,
+                                String password,
+                                String phone,
+                                String saltKey,
+                                String flag
 
-    public void updateInfo(MemberUpdateRequest request) {
-        if(getFlag().equals("N")) {
-            throw new IllegalStateException("탈퇴한 회원은 정보를 수정할 수 없습니다.");
-        }
-        this.nickname = request.nickname();
-        this.phone = request.phone();
+    ) {
+        return new Member(
+                UUID.randomUUID(),
+                email,
+                nickname,
+                password,
+                phone,
+                saltKey,
+                flag
+        );
     }
 
 
+    //회원 정보 수정
+    //닉네임, 전화번호 수정
+    public void updateInfo(MemberUpdateCommand command) {
+        if(getFlag().equals("N")) {
+            throw new IllegalStateException("탈퇴한 회원은 정보를 수정할 수 없습니다.");
+        }
+        this.nickname = command.nickname();
+        this.phone = command.phone();
+    }
 
+    //password 변경
+    public void changePassword(String newPassword) {
+        if(getFlag().equals("N")) {
+            throw new IllegalStateException("탈퇴한 회원은 비밀번호를 변경할 수 없습니다.");
+        }
+        this.password = newPassword;
+    }
+
+    //탈퇴 처리
+    public void deactivate() {
+        //이미 N 상태인경우 예외처리
+        if(getFlag().equals("N")) {
+            throw new IllegalStateException("이미 탈퇴한 회원입니다.");
+        }
+        this.flag = "N";
+    }
+
+    //탈퇴 취소
+    public void activate() {
+        //이미 Y 상태인경우 예외처리
+        if(getFlag().equals("Y")) {
+            throw new IllegalStateException("이미 활성화된 회원입니다.");
+        }
+        this.flag = "Y";
+    }
 
 
 
